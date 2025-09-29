@@ -113,6 +113,14 @@ schema:
           - "public_topic_count"
           - "staff_topic_count"
           - "target_tag_id"
+    topic_users:
+      primary_key_column_names: [ "topic_id", "user_id" ]
+      columns:
+        exclude:
+          - "id"
+          - "bookmarked"
+          - "liked"
+          - "posted"
     user_associated_accounts:
       primary_key_column_names: [ "user_id", "provider_name" ]
       columns:
@@ -430,7 +438,6 @@ schema:
         - "topic_tags"
         - "topic_thumbnails"
         - "topic_timers"
-        - "topic_users"
         - "topic_view_stats"
         - "topic_views"
         - "topic_voting_category_settings"
