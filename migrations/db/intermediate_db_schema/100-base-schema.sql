@@ -191,6 +191,14 @@ CREATE TABLE tags
     name        TEXT     NOT NULL
 );
 
+CREATE TABLE topic_tags
+(
+    tag_id     NUMERIC  NOT NULL,
+    topic_id   NUMERIC  NOT NULL,
+    created_at DATETIME,
+    PRIMARY KEY (topic_id, tag_id)
+);
+
 CREATE TABLE user_associated_accounts
 (
     provider_name TEXT      NOT NULL,
