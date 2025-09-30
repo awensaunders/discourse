@@ -93,6 +93,7 @@ export default RouteTemplate(
       <Form
         @data={{@controller.formData}}
         @onDirtyCheck={{@controller.isLeavingForm}}
+        @onRegisterApi={{@controller.registerFormKitApi}}
         as |form transientData|
       >
         <form.Section
@@ -104,7 +105,7 @@ export default RouteTemplate(
               <Tab
                 @selectedTab={{@controller.selectedTab}}
                 @category={{@controller.model}}
-                @action={{@controller.registerValidator}}
+                @registerValidator={{@controller.registerValidator}}
                 @transientData={{transientData}}
                 @form={{form}}
               />

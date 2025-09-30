@@ -129,6 +129,10 @@ export default class EditCategoryGeneral extends Component {
   updateColor(field, newColor) {
     const color = newColor.replace("#", "");
 
+    if (color === field.value) {
+      return;
+    }
+
     if (field.name === "color") {
       const whiteDiff = this.colorDifference(color, CATEGORY_TEXT_COLORS[0]);
       const blackDiff = this.colorDifference(color, CATEGORY_TEXT_COLORS[1]);
@@ -158,6 +162,34 @@ export default class EditCategoryGeneral extends Component {
     const bDiff = Math.max(b1, b2) - Math.min(b1, b2);
 
     return rDiff + gDiff + bDiff;
+  }
+
+  @action
+  validateTextColor(name, color, { addError, removeError }) {
+    console.log("what bro", addError);
+    // removeError("text_color");
+    color = color.trim();
+
+    if (!color) {
+      addError("text_color", {
+        title: i18n("category.foreground_color"),
+        message: i18n("category.foreground_color_validations.cant_be_empty"),
+      });
+    }
+
+    if (color.length !== 3 && color.length !== 6) {
+      addError("text_color", {
+        title: i18n("category.foreground_color"),
+        message: i18n("category.foreground_color_validations.incorrect_length"),
+      });
+    }
+
+    if (!/^[0-9A-Fa-f]+$/.test(color)) {
+      addError("text_color", {
+        title: i18n("category.foreground_color"),
+        message: i18n("category.foreground_color_validations.non_hexdecimal"),
+      });
+    }
   }
 
   get categoryDescription() {
@@ -318,6 +350,7 @@ export default class EditCategoryGeneral extends Component {
           @name="color"
           @title={{i18n "category.background_color"}}
           @format="full"
+          @validation="required"
           as |field|
         >
           <field.Custom>
@@ -328,6 +361,7 @@ export default class EditCategoryGeneral extends Component {
                   @valid={{@category.colorValid}}
                   @ariaLabelledby="background-color-label"
                   @onChangeColor={{fn this.updateColor field}}
+                  @skipNormalize={{true}}
                 />
                 <ColorPicker
                   @colors={{this.backgroundColors}}
@@ -345,6 +379,8 @@ export default class EditCategoryGeneral extends Component {
           @name="text_color"
           @title={{i18n "category.foreground_color"}}
           @format="full"
+          @validate={{this.validateTextColor}}
+          @validation="required"
           as |field|
         >
           <field.Custom>
@@ -354,6 +390,7 @@ export default class EditCategoryGeneral extends Component {
                   @hexValue={{readonly field.value}}
                   @ariaLabelledby="foreground-color-label"
                   @onBlur={{fn this.updateColor field}}
+                  @skipNormalize={{true}}
                 />
                 <ColorPicker
                   @colors={{CATEGORY_TEXT_COLORS}}

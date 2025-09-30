@@ -41,6 +41,7 @@ export default class EditCategoryTabsController extends Controller {
   expandedMenu = false;
   parentParams = null;
   validators = [];
+  formKitApi = null;
   textColors = ["000000", "FFFFFF"];
 
   @and("showTooltip", "model.cannot_delete_reason") showDeleteReason;
@@ -62,10 +63,6 @@ export default class EditCategoryTabsController extends Controller {
     }
 
     if (!transientData.color) {
-      return false;
-    }
-
-    if (transientData.text_color.length < 6) {
       return false;
     }
 
@@ -121,10 +118,18 @@ export default class EditCategoryTabsController extends Controller {
 
   @action
   saveCategory(transientData) {
-    if (this.validators.some((validator) => validator())) {
+    if (
+      this.validators.some((validator) =>
+        validator(transientData, {
+          addError: this.formKitApi.addError,
+          removeError: this.formKitApi.removeError,
+        })
+      )
+    ) {
       return;
     }
 
+    this.formKitApi.submit();
     this.model.setProperties(transientData);
 
     this.set("saving", true);
@@ -190,5 +195,10 @@ export default class EditCategoryTabsController extends Controller {
   @action
   goBack() {
     DiscourseURL.routeTo(this.model.url);
+  }
+
+  @action
+  registerFormKitApi(api) {
+    this.formKitApi = api;
   }
 }

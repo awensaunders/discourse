@@ -58,6 +58,7 @@ export default class FKFormData {
    * @return {boolean} True if there are no errors.
    */
   get isValid() {
+    console.log(this.errors);
     return Object.keys(this.errors).length === 0;
   }
 

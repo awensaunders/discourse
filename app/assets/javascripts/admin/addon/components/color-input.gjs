@@ -41,7 +41,7 @@ export default class ColorInput extends Component {
       if (!color.startsWith("#")) {
         color = "#" + color;
       }
-      if (color.length === 4) {
+      if (color.length === 4 && !this.skipNormalize) {
         color =
           "#" +
           color
