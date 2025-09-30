@@ -14,7 +14,6 @@ module Migrations::Database::IntermediateDB
         automatic_membership_email_domains,
         bio_raw,
         created_at,
-        default_notification_level,
         existing_id,
         flair_bg_color,
         flair_color,
@@ -35,7 +34,7 @@ module Migrations::Database::IntermediateDB
         visibility_level
       )
       VALUES (
-        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+        ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
       )
     SQL
     private_constant :SQL
@@ -48,7 +47,6 @@ module Migrations::Database::IntermediateDB
     # @param automatic_membership_email_domains   [String, nil]
     # @param bio_raw                              [String, nil]
     # @param created_at                           [Time, nil]
-    # @param default_notification_level           [Integer, nil]
     # @param existing_id                          [Integer, String, nil]
     # @param flair_bg_color                       [String, nil]
     # @param flair_color                          [String, nil]
@@ -76,7 +74,6 @@ module Migrations::Database::IntermediateDB
       automatic_membership_email_domains: nil,
       bio_raw: nil,
       created_at: nil,
-      default_notification_level: nil,
       existing_id: nil,
       flair_bg_color: nil,
       flair_color: nil,
@@ -104,7 +101,6 @@ module Migrations::Database::IntermediateDB
         automatic_membership_email_domains,
         bio_raw,
         ::Migrations::Database.format_datetime(created_at),
-        default_notification_level,
         existing_id,
         flair_bg_color,
         flair_color,
